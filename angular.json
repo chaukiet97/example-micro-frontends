@@ -7,7 +7,19 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
-          "strict": true
+          "strict": false
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
         }
       },
       "root": "",
@@ -15,7 +27,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist/example-micro-frontends",
             "index": "src/index.html",
@@ -27,9 +39,15 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "./webpack.config.js",
+              "replaceDuplicatePlugins": true
+            }
           },
           "configurations": {
             "production": {
@@ -51,7 +69,10 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "customWebpackConfig": {
+                "path": "./webpack.config.js"
+              }
             },
             "development": {
               "buildOptimizer": false,
@@ -94,7 +115,221 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "tiki": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/tiki",
+      "sourceRoot": "projects/tiki/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "outputPath": "dist/tiki",
+            "index": "projects/tiki/src/index.html",
+            "main": "projects/tiki/src/main.ts",
+            "polyfills": "projects/tiki/src/polyfills.ts",
+            "tsConfig": "projects/tiki/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/tiki/src/favicon.ico",
+              "projects/tiki/src/assets"
+            ],
+            "styles": [
+              "projects/tiki/src/styles.scss"
+            ],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "projects/tiki/webpack.config.js"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/tiki/src/environments/environment.ts",
+                  "with": "projects/tiki/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "customWebpackConfig": {
+                "path": "projects/mailbox/webpack.prod.config.js"
+              }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "tiki:build:production"
+            },
+            "development": {
+              "browserTarget": "tiki:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "tiki:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/tiki/src/test.ts",
+            "polyfills": "projects/tiki/src/polyfills.ts",
+            "tsConfig": "projects/tiki/tsconfig.spec.json",
+            "karmaConfig": "projects/tiki/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/tiki/src/favicon.ico",
+              "projects/tiki/src/assets"
+            ],
+            "styles": [
+              "projects/tiki/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        }
+      }
+    },
+    "shoppe": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/shoppe",
+      "sourceRoot": "projects/shoppe/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-builders/custom-webpack:browser",
+          "options": {
+            "outputPath": "dist/shoppe",
+            "index": "projects/shoppe/src/index.html",
+            "main": "projects/shoppe/src/main.ts",
+            "polyfills": "projects/shoppe/src/polyfills.ts",
+            "tsConfig": "projects/shoppe/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/shoppe/src/favicon.ico",
+              "projects/shoppe/src/assets"
+            ],
+            "styles": [
+              "projects/shoppe/src/styles.scss"
+            ],
+            "scripts": [],
+            "customWebpackConfig": {
+              "path": "projects/shoppe/webpack.config.js"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/shoppe/src/environments/environment.ts",
+                  "with": "projects/shoppe/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all",
+              "customWebpackConfig": {
+                "path": "projects/shoppe/webpack.prod.config.js"
+              }
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "shoppe:build:production"
+            },
+            "development": {
+              "browserTarget": "shoppe:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "shoppe:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/shoppe/src/test.ts",
+            "polyfills": "projects/shoppe/src/polyfills.ts",
+            "tsConfig": "projects/shoppe/tsconfig.spec.json",
+            "karmaConfig": "projects/shoppe/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/shoppe/src/favicon.ico",
+              "projects/shoppe/src/assets"
+            ],
+            "styles": [
+              "projects/shoppe/src/styles.scss"
             ],
             "scripts": []
           }
