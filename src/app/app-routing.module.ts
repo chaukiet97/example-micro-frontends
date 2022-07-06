@@ -6,16 +6,16 @@ import { AppComponent } from './app.component';
 const routes: Routes = [
   {
     path: 'shoppe',
-    loadChildren: () => import('shoppe/ShoppeModule').then(m => m.ShoppeModule)
+    loadChildren: () => import('../../projects/shoppe/src/app/shoppe.module').then(m => m.ShoppeModule)
   },
   {
     path: 'tiki',
-    loadChildren: () => import('tiki/TikiModule').then(m => m.TikiModule)
+    loadChildren: () => import('../../projects/tiki/src/app/tiki.module').then(m => m.TikiModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {enableTracing: false, useHash: false, anchorScrolling: 'enabled', preloadingStrategy: PreloadAllModules})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
